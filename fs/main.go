@@ -14,6 +14,10 @@ func main() {
 		return
 	}
 	banner := os.Args[2]
+	if banner != "standard" && banner != "shadow" && banner != "thinkertoy" {
+		fmt.Println("Error: Not a valid banner")
+		return
+	}
 	content, err := os.ReadFile(banner + ".txt")
 	if err != nil {
 		fmt.Println("Error reading file:", err)
