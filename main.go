@@ -9,24 +9,18 @@ import (
 var slice [][]string
 
 func main() {
-	if len(os.Args) != 3 {
-		fmt.Println("Usage: go run . [STRING] [BANNER]")
+	if len(os.Args) != 2 {
+		fmt.Println("Usage: go run . <input_string>")
 		return
 	}
-	banner := os.Args[2]
-	content, err := os.ReadFile(banner + ".txt")
+
+	content, err := os.ReadFile("/home/afethi/Desktop/ascii-art/standard.txt")
 	if err != nil {
 		fmt.Println("Error reading file:", err)
 		return
 	}
 	str := string(content)
-	var lines []string
-	if banner != "thinkertoy" {
-		lines = strings.Split(str, "\n\n")
-	} else {
-		fixedContent := strings.ReplaceAll(str, "\r\n", "\n")
-		lines = strings.Split(fixedContent, "\n\n")
-	}
+	lines := strings.Split(str, "\n\n")
 
 	for i := range lines {
 		if lines[i] != "" {
