@@ -31,11 +31,6 @@ func main() {
 		}
 	}
 	input := os.Args[1]
-	if input == "" {
-		return
-	} else if input == "\n" {
-		print("\n")
-	}
 	inputLines := strings.Split(input, "\\n")
 	for i, value := range inputLines {
 		if value == "" {
