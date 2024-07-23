@@ -9,11 +9,21 @@ import (
 var slice [][]string
 
 func main() {
-	if len(os.Args) != 3 {
+	var banner string
+	var input string
+
+	if len(os.Args) == 2 {
+		input = os.Args[1]
+		banner = "standard"
+	} else if len(os.Args) == 3 {
+		input = os.Args[1]
+		banner = os.Args[2]
+	} else {
 		fmt.Println("Usage: go run . [STRING] [BANNER]")
+		fmt.Println()
+		fmt.Println("EX: go run . something standard")
 		return
 	}
-	banner := os.Args[2]
 	if banner != "standard" && banner != "shadow" && banner != "thinkertoy" {
 		fmt.Println("Error: Not a valid banner")
 		return
@@ -40,7 +50,6 @@ func main() {
 			slice = append(slice, strings.Split(lines[i], "\n"))
 		}
 	}
-	input := os.Args[1]
 	if input == "" {
 		return
 	} else if input == "\n" {
