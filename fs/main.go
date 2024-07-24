@@ -50,11 +50,6 @@ func main() {
 			slice = append(slice, strings.Split(lines[i], "\n"))
 		}
 	}
-	if input == "" {
-		return
-	} else if input == "\n" {
-		print("\n")
-	}
 	inputLines := strings.Split(input, "\\n")
 	for i, value := range inputLines {
 		if value == "" {
