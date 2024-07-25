@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 )
 
@@ -121,10 +122,22 @@ func main() {
 			fullOutput += output
 		}
 	}
+	banners := []string{"standard.txt", "shadow.txt", "thinkertoy.txt"}
 	if outputFile != "" {
-		err := os.WriteFile(outputFile, []byte(fullOutput), 0o644)
-		if err != nil {
-			fmt.Println("Error writing to file:", err)
+		if strings.HasSuffix(outputFile, ".txt") {
+			if outputFile == ".txt" {
+				fmt.Println("Warning: The file saved as a hidden file")
+			} else if slices.Contains(banners, outputFile) {
+				fmt.Println("Error: Cannot writing on banner files")
+				return
+			}
+			err := os.WriteFile(outputFile, []byte(fullOutput), 0o644)
+			if err != nil {
+				fmt.Println("Error writing to file:", err)
+				return
+			}
+		} else {
+			fmt.Println("Error: File must be .txt extension")
 			return
 		}
 	}
