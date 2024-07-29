@@ -74,8 +74,13 @@ func Printer(inputLine string) {
 				}
 			} else {
 				fmt.Printf("Character '%c' is not a printable ASCII character\n", char)
+				os.Exit(1)
 			}
 		}
 		fmt.Println()
 	}
 }
+
+
+/*check if valid charsare given befor printing 
+and pro*/

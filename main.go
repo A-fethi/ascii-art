@@ -13,7 +13,6 @@ func main() {
 		fmt.Println("Usage: go run . <input_string>")
 		return
 	}
-
 	content, err := os.ReadFile("/home/afethi/Desktop/ascii-art/standard.txt")
 	if err != nil {
 		fmt.Println("Error reading file:", err)
