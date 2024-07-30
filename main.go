@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -13,10 +14,16 @@ func main() {
 		fmt.Println("Usage: go run . <input_string>")
 		return
 	}
-	content, err := os.ReadFile("/home/afethi/Desktop/ascii-art/standard.txt")
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-		return
+	content, err := os.ReadFile("standard.txt")
+	if err != nil  || len(content) == 6623{
+		url := "https://learn.zone01oujda.ma/git/root/public/raw/branch/master/subjects/ascii-art/standard.txt"
+		cmd := exec.Command("curl", "-o", "standard.txt", url)
+		_, er := cmd.Output()
+		if er != nil {
+			fmt.Println("Error fetching url:", er)
+			return
+		}
+		content, _ = os.ReadFile("standard.txt")
 	}
 	str := string(content)
 	lines := strings.Split(str, "\n\n")
@@ -30,17 +37,34 @@ func main() {
 		}
 	}
 	input := os.Args[1]
-	inputLines := strings.Split(input, "\\n")
-	for i, value := range inputLines {
-		if value == "" {
-			if i != 0 {
-				fmt.Println()
+	if input == "" {
+		return
+	} else {
+		onlyNewLine := false
+
+		inputLines := strings.Split(input, "\\n")
+		for _, v := range inputLines {
+			if v == "" {
+				onlyNewLine = true
+			} else {
+				onlyNewLine = false
+				break
 			}
-		} else {
-			Printer(value)
+		}
+		if onlyNewLine {
+			inputLines = inputLines[1:]
+		}
+
+		for _, value := range inputLines {
+			if value == "" {
+				fmt.Println()
+
+			} else {
+				Printer(value)
+			}
 		}
 	}
-}
+}	
 
 func Printer(inputLine string) {
 	for j := 0; j < 8; j++ {
@@ -51,9 +75,11 @@ func Printer(inputLine string) {
 					fmt.Print(slice[index][j])
 				} else {
 					fmt.Printf("Character '%c' is out of range\n", char)
+					return
 				}
 			} else {
 				fmt.Printf("Character '%c' is not a printable ASCII character\n", char)
+				return
 			}
 		}
 		fmt.Println()
