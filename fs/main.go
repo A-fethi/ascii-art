@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	fs "fs/ressources"
 )
 
 var slice [][]string
@@ -41,7 +43,6 @@ func main() {
 		fixedContent := strings.ReplaceAll(str, "\r\n", "\n")
 		lines = strings.Split(fixedContent, "\n\n")
 	}
-
 	for i := range lines {
 		if lines[i] != "" {
 			if i == 0 {
@@ -50,37 +51,29 @@ func main() {
 			slice = append(slice, strings.Split(lines[i], "\n"))
 		}
 	}
-	inputLines := strings.Split(input, "\\n")
-	for i, value := range inputLines {
-		if value == "" {
-			if i != 0 {
-				fmt.Println()
-			}
-		} else {
-			Printer(value)
-		}
-	}
-}
-
-func Printer(inputLine string) {
-	for j := 0; j < 8; j++ {
-		for _, char := range inputLine {
-			if char >= 32 && char <= 126 { // printable ASCII range
-				index := int(char) - 32
-				if index >= 0 && index < len(slice) {
-					fmt.Print(slice[index][j])
-				} else {
-					fmt.Printf("Character '%c' is out of range\n", char)
-				}
+	if input == "" {
+		return
+	} else {
+		// gets rid of the first empty string if the input has ONLY newlines
+		onlyNewLine := false
+		inputLines := strings.Split(input, "\\n")
+		for _, value := range inputLines {
+			if value == "" {
+				onlyNewLine = true
 			} else {
-				fmt.Printf("Character '%c' is not a printable ASCII character\n", char)
-				os.Exit(1)
+				onlyNewLine = false
+				break
 			}
 		}
-		fmt.Println()
+		if onlyNewLine {
+			inputLines = inputLines[1:]
+		}
+		for _, value := range inputLines {
+			if value == "" {
+				fmt.Println()
+			} else {
+				fs.Printer(value, slice)
+			}
+		}
 	}
 }
-
-
-/*check if valid charsare given befor printing 
-and pro*/
