@@ -26,7 +26,6 @@ func optionFlag() {
 			colors = strings.TrimPrefix(string(option[i]), "--color=")
 		}
 	}
-	println(colors)
 }
 
 func main() {
@@ -51,10 +50,15 @@ func main() {
 			banner = os.Args[2]
 		}
 	} else if len(os.Args) == 4 {
-		substring = os.Args[2]
-		input = os.Args[3]
-		banner = "standard"
-		optionFlag()
+		if strings.HasPrefix(os.Args[1], "--color=") {
+			substring = os.Args[2]
+			input = os.Args[3]
+			banner = "standard"
+			optionFlag()
+		} else {
+			formatError()
+			return
+		}
 	} else {
 		formatError()
 		return
@@ -77,7 +81,7 @@ func main() {
 			if value == "" {
 				fmt.Println()
 			} else {
-				color.Printer(value, color.Slice)
+				color.Printer(value, color.Slice, substring, colors)
 			}
 		}
 	}
