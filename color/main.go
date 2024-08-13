@@ -10,7 +10,7 @@ import (
 
 var (
 	colors    string
-	substring string
+	// substring string
 )
 
 func formatError() {
@@ -31,6 +31,7 @@ func optionFlag() {
 func main() {
 	var banner string
 	var input string
+	var substring string
 
 	if len(os.Args) == 2 {
 		if strings.HasPrefix(os.Args[1], "--color=") {
@@ -63,12 +64,12 @@ func main() {
 		formatError()
 		return
 	}
-	if !strings.HasPrefix(os.Args[1], "--color=") {
+	/*if !strings.HasPrefix(os.Args[1], "--color=") {
 		if banner != "standard" && banner != "shadow" && banner != "thinkertoy" {
 			fmt.Println("Error: Not a valid banner")
 			return
 		}
-	}
+	}*/
 	str := color.Reader(banner)
 	color.Splitter(banner, str)
 	if input == "" {
