@@ -8,10 +8,9 @@ import (
 	color "color/ressources"
 )
 
-var (
-	colors    string
-	// substring string
-)
+var colors string
+
+// substring string
 
 func formatError() {
 	fmt.Println("Usage: go run . [OPTION] [STRING]")
@@ -60,16 +59,26 @@ func main() {
 			formatError()
 			return
 		}
+	} else if len(os.Args) == 5 {
+		if strings.HasPrefix(os.Args[1], "--color=") {
+			substring = os.Args[2]
+			input = os.Args[3]
+			banner = os.Args[4]
+			optionFlag()
+		} else {
+			formatError()
+			return
+		}
 	} else {
 		formatError()
 		return
 	}
-	/*if !strings.HasPrefix(os.Args[1], "--color=") {
+	if !strings.HasPrefix(os.Args[1], "--color=") {
 		if banner != "standard" && banner != "shadow" && banner != "thinkertoy" {
 			fmt.Println("Error: Not a valid banner")
 			return
 		}
-	}*/
+	}
 	str := color.Reader(banner)
 	color.Splitter(banner, str)
 	if input == "" {

@@ -29,7 +29,7 @@ func Printer(inputLine string, slice [][]string, substring string, color string)
 	for j := 0; j < 8; j++ {
 		i := 0
 		for i < len(inputLine) {
-			if len(os.Args) == 4 && strings.HasPrefix(inputLine[i:], substring) {
+			if (len(os.Args) == 4 || len(os.Args) == 5) && strings.HasPrefix(inputLine[i:], substring) {
 				for k := 0; k < len(substring); k++ {
 					char := inputLine[i+k]
 					index := int(char) - 32
