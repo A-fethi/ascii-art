@@ -1,45 +1,77 @@
 ## ascii-art-color
 
+## Overview
+
+This project extends the original ascii-art functionality by adding support for colorizing specific substrings in the input text. You can highlight parts of your ASCII art or text output by applying colors to chosen substrings using the command-line interface.
+
 ### Objectives
 
-You must follow the same [instructions](../README.md) as in the first subject but this time with colors.
+The program allows you to colorize substrings within a string. The coloring is controlled via the `--color` flag, and you can specify the color and the substring to be colored. The supported colors can be in various notations such as `color names`, `RGB`, or `ANSI escape codes`.
 
-The output should manipulate colors using the **flag** `--color=<color> <substring to be colored>`, in which `--color` is the flag and `<color>` is the color desired by the user and `<substring to be colored>` is the substring that you can chose to be colored. These colors can be achieved using different notations (color code systems, like `RGB`, `hsl`, `ANSI`...), it is up to you to choose which one you want to use.
+### Usage
 
-- The substring to be colored can be a single letter or more
-- If the substring is not specified, the whole `string` should be colored.
-- The flag must have exactly the same format as above, any other formats must return the following usage message:
+```shell
+$ go run . --color=<color> <substring to be colored> "your string here"
+```
+- `--color=<color>`: Specifies the color to apply to the substring. You can use color names (e.g., red, blue), RGB values (e.g., rgb(255,0,0)), or other supported color notations.
+- `<substring to be colored>`: The specific substring within the input text that you want to colorize.
+- `"your string here"`: The string in which the coloring will be applied.
 
+## Examples
+
+1. ## Colorizing a specific substring
+```shell
+$ go run . --color=red kit "a king kitten have kit"
+```
+This command will color the substring kit in both kitten and kit with the color red.
+
+2. ## Colorizing the entire string
+If no substring is provided, the entire string will be colored.
+```shell
+$ go run . --color=blue "a king kitten have kit"
+```
+This command will color the entire string with blue.
+
+### Usage Messages
+
+- ## Correct Usage
+For the example above, the substring `kit` in the word `kitten` and the word `kit` at the end should be colored.
+```shell
+$ go run . --color=red kit "a king kitten have kit"
+```
+
+- ## Incorrect Usage
+
+1. If the `--color` flag is missing or not formatted correctly, or if the command is used incorrectly, the program will display the following usage message:
 ```console
 Usage: go run . [OPTION] [STRING]
 
 EX: go run . --color=<color> <substring to be colored> "something"
 ```
 
-### Usage
-
-```shell
-$ go run . --color=red kit "a king kitten have kit"
+2. If the `"your string here"` have a unprintable ASCII character, the program will display the following error message:
+```console
+Character 'the unprintable character you typed' is not a printable ASCII character
 ```
 
-For the example above, the substring `kit` in the word `kitten` and the word `kit` at the end should be colored.
+3. If the `<substring to be colored>` have a unprintable ASCII character, or have a white spaces, the program will display the following error message:
+```console
+Character 'the unprintable character you typed' is not a printable ASCII character
 
-If there are other `ascii-art` optional projects implemented, the program should accept other correctly formatted `[OPTION]` and/or `[BANNER]`.
-Additionally, the program must still be able to run with a single `[STRING]` argument.
+[Check README file]
+```
 
-### Instructions
+### Additional Features
 
-- Your project must be written in **Go**.
-- The code must respect the [**good practices**](../../good-practices/README.md).
-- It is recommended to have **test files** for [unit testing](https://go.dev/doc/tutorial/add-a-test).
+- The program is designed to work with other optional projects related to ASCII art. It supports various [OPTION] flags and/or [BANNER] configurations if implemented.
 
-### Allowed packages
+- The functionality to run the program with a single [STRING] argument remains intact, allowing basic text output without color customization.
 
-- Only the [standard Go](https://golang.org/pkg) packages are allowed
+### Getting Started
 
-This project will help you learn about :
+To run the program:
+1. Ensure you have Go installed on your machine.
+2. Clone the repository or navigate to the project directory.
+3. Use the go run . command with the appropriate flags and arguments as described above.
 
-- The Go file system(**fs**) API
-- Color converters
-- Data manipulation
-- Terminal display
+Feel free to explore different color notations and experiment with colorizing various parts of your text. Enjoy enhancing your ASCII art and text outputs with vibrant colors!

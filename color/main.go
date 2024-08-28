@@ -10,8 +10,6 @@ import (
 
 var colors string
 
-// substring string
-
 func formatError() {
 	fmt.Println("Usage: go run . [OPTION] [STRING]")
 	fmt.Println()
@@ -20,10 +18,15 @@ func formatError() {
 
 func optionFlag() {
 	option := os.Args[1:]
-	for i := 0; i < len(option); i++ {
-		if strings.HasPrefix(string(option[i]), "--color=") {
-			colors = strings.TrimPrefix(string(option[i]), "--color=")
-		}
+
+	if strings.HasPrefix(string(option[0]), "--color=") {
+		colors = strings.TrimPrefix(string(option[0]), "--color=")
+	}
+
+	if color.GetColor(colors) == "" {
+		fmt.Println("ERROR: the color isn't available.\nRetry with rgb or hex codes.")
+		fmt.Println()
+		os.Exit(69)
 	}
 }
 
@@ -73,9 +76,18 @@ func main() {
 		formatError()
 		return
 	}
-	if !strings.HasPrefix(os.Args[1], "--color=") {
 		if banner != "standard" && banner != "shadow" && banner != "thinkertoy" {
 			fmt.Println("Error: Not a valid banner")
+			return
+		}
+	
+	if !color.IsPrintable(substring) || strings.ContainsAny(substring, "\\n\\r\\t") {
+		fmt.Println("\n[Check README file]")
+		return
+	}
+	inputLines := strings.Split(input, "\\n")
+	for _, line := range inputLines {
+		if !color.IsPrintable(line) {
 			return
 		}
 	}
@@ -84,8 +96,6 @@ func main() {
 	if input == "" {
 		return
 	} else {
-		inputLines := strings.Split(input, "\\n")
-		// checking if the input has only newlines
 		inputLines = color.OnlyNewLine(inputLines)
 		for _, value := range inputLines {
 			if value == "" {
